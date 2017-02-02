@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="{{locale}}">
+<head>
+    {% block head %}
+        {% include'includes.header' %}
+    {% endblock %}
+</head>
+<body>
+{% block navigation %}
+    {% include'includes.navigation' %}
+{% endblock %}
+{% block body %}{% endblock %}
+{% block footer %}
+    {% include'includes.footer' %}
+{% endblock %}
+</body>
+</html>
