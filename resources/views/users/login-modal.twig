@@ -1,0 +1,35 @@
+<div class="modal fade" id="login-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xs">
+        <div class="modal-content">
+            <div class="modal-header" style="background: lightgreen">
+                <h2 class="modal-title">Log In</h2>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('users.login') }}" method="post" enctype="multipart/form-data">
+
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                    <div class="row" style="padding-top: 50px">
+                        <div class="col-lg-6 col-lg-offset-3">
+                            <input type="text" class="form-control" placeholder="Username" name="username">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 1%">
+                        <div class="col-lg-6 col-lg-offset-3">
+                            <input type="password" class="form-control" placeholder="Password" name="password">
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 1%">
+                        <div class="col-lg-6 col-lg-offset-3">
+                            <button type="submit" class="btn btn-lg mybutton_standard wow swing ">Log In</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

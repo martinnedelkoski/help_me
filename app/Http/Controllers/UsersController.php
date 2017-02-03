@@ -21,6 +21,16 @@ class UsersController extends Controller
         $this->auth = $auth;
     }
 
+    public function home()
+    {
+        return view('home');
+    }
+
+    public function registerForm()
+    {
+        return view('users.register');
+    }
+
     public function register(Request $request)
     {
         $name = $request->get('name');
@@ -29,6 +39,7 @@ class UsersController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
         $birthday = $request->get('birthday');
+
         try {
             $this->commandBus->dispatch(new StoreUserCommand(
                 $name, $surname, $username, $email, $password, $birthday

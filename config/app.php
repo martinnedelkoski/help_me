@@ -178,6 +178,30 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        /*
+         * Roles Service Providers
+         */
+        \App\Roles\Providers\RolesRepositoryProvider::class,
+
+        /*
+         * Users Service Providers
+         */
+        \App\Users\Providers\UsersRepositoryProvider::class,
+
+        /*
+         * Topic Service Providers...
+         */
+        \App\Topics\Providers\TopicsRepositoryProvider::class,
+
+        /*
+         * Comment Service Providers...
+         */
+        \App\Topics\Comments\Providers\CommentsRepositoryProvider::class,
+
+        /*
+         * Category Service Providers...
+         */
+        \App\Categories\Providers\CategoriesRepositoryProvider::class
 
     ],
 

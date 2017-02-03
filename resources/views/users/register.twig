@@ -1,0 +1,57 @@
+{% extends "layouts.default" %}
+
+{% block body %}
+
+    <div class="container container-fluid" >
+
+        <h2>Register</h2>
+
+        <form method="post" action="{{ route('users.register') }}" enctype="multipart/form-data">
+
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+            <div class="row" style="padding-top: 50px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <input type="text" class="form-control" placeholder="First Name" name="name">
+                </div>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" placeholder="Last Name" name="surname">
+                </div>
+            </div>
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <input type="text" class="form-control" placeholder="Username" name="username">
+                </div>
+            </div>
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <input type="text" class="form-control" placeholder="Email address" name="email">
+                </div>
+            </div>
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <input type="password" class="form-control" placeholder="Password" name="password">
+                </div>
+                <div class="col-lg-4">
+                    <input type="date" class="form-control" placeholder="Birthday" name="birthday">
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <button type="submit" class="btn  btn-lg mybutton_cyano wow fadeIn">Submit</button>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <label><small>All fields are required!</small></label>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+{% endblock %}
