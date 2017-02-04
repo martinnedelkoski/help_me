@@ -11,8 +11,8 @@ class TopicsRepositoryProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            EloquentTopicsRepository::class,
-            TopicsRepositoryInterface::class
+            TopicsRepositoryInterface::class,
+            EloquentTopicsRepository::class
         );
     }
 }

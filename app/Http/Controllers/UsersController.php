@@ -6,6 +6,7 @@ use App\Users\Commands\StoreUserCommand;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Session\Store;
 
 class UsersController extends Controller
@@ -50,20 +51,20 @@ class UsersController extends Controller
             $this->session->flash('error', 'Error while storing the user.');
         }
 
-        return redirect()->back();
+        return route('home');
     }
 
     public function login(Request $request)
     {
         $credentials = $request->only('username', 'password');
 
-        if ($this->auth->attempt($credentials)) {
-            return redirect()->route('home');
+        if (Auth::attempt($credentials)) {
+            dd($credentials);
         }
 
         $this->session->flash('error', 'Email or password wrong');
 
-        return redirect()->route('user.login');
+        return redirect()->route('home');
     }
 
     public function logout()

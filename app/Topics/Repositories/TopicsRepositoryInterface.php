@@ -6,6 +6,11 @@ use App\Topics\Topic;
 
 interface TopicsRepositoryInterface
 {
+    /**
+     * @return Topic[]
+     */
+    public function all();
+
     public function store(Topic $topic);
 
     /**

@@ -1,0 +1,38 @@
+{% extends "layouts.default" %}
+
+{% block body %}
+    <div class="container container-fluid">
+
+         <div class="row">
+             <h2>{{ topic.getContent() }}</h2>
+         </div>
+
+        <div class="row" style="margin-left: 5%">
+            <div class="col-xs-7">
+                <h4>Comments</h4>
+            </div>
+            <div class="col-xs-1">
+                <h4>Votes</h4>
+            </div>
+            <div class="col-xs-4">
+                <h4>Vote</h4>
+            </div>
+        </div>
+        <hr/>
+
+         {% for comment in topic.getComments() %}
+             <div class="row" style="margin-left: 5%">
+                 <div class="col-xs-7">
+                    <h4>{{ comment.getContent() }}</h4>
+                 </div>
+                 <div class="col-xs-1">
+                     <span class="badge">{{ comment.getVotes() }}</span>
+                 </div>
+                 <div class="col-xs-4">
+                     <a href="{{ route('topics.comments.vote-up', comment.getId()) }}" class="btn btn-success btn-xs">+</a>
+                     <a href="{{ route('topics.comments.vote-down', comment.getId()) }}" class="btn btn-danger btn-xs">-</a>
+                 </div>
+             </div>
+         {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layouts.default" %}
+
+{% block body %}
+    <div class="container container-fluid">
+        <h2>Topics</h2>
+        <a href="{{ route('topics.create') }}" class="btn btn-lg mybutton_cyano wow fadeIn">New topic</a>
+
+        {% for topic in topics %}
+
+            <div class="row">
+                {% set commentsNumber = (topic.getComments()|length) %}
+                <a href="{{ route('topics.show', topic.getId()) }}">
+                    <h3>{{ topic.getTitle() }}<span class="badge">{{ commentsNumber }} comments</span> </h3>
+                </a>
+            </div>
+            <div class="row">
+                {% set tags = (topic.getTags()|split(',')) %}
+                {% for tag in tags %}
+                    <span class="badge">{{ tag }}</span>
+                {% endfor %}
+            </div>
+
+            <hr>
+
+        {% endfor %}
+    </div>
+{% endblock %}

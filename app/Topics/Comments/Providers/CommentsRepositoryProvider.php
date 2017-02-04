@@ -17,8 +17,8 @@ class CommentsRepositoryProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            EloquentCommentsRepository::class,
-            CommentsRepositoryInterface::class
+            CommentsRepositoryInterface::class,
+            EloquentCommentsRepository::class
         );
     }
 }

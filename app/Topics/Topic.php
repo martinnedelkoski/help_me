@@ -2,6 +2,7 @@
 
 namespace App\Topics;
 
+use App\Topics\Comments\Comment;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
@@ -61,6 +62,16 @@ class Topic extends Model
     public function setStatus($status)
     {
         $this->setAttribute("status", $status);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getComments()
+    {
+        return $this->comments()->get()->all();
     }
 
 

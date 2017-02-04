@@ -1,0 +1,58 @@
+{% extends "layouts.default" %}
+
+{% block body %}
+
+    <div class="container container-fluid" >
+
+        <h2>New topic</h2>
+
+        <form method="post" action="{{ route('topics.store') }}" enctype="multipart/form-data" style="margin-top: 3%">
+
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+            <div class="row" style="padding-top: 50px">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <input type="text" class="form-control" placeholder="Title" name="title">
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-8 col-lg-offset-2">
+                    <textarea cols="10" rows="10" name="content" class="form-control" placeholder="Topic's content">
+                    </textarea>
+                </div>
+
+            </div>
+
+            <div class="row" style="padding-top: 50px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <input type="text" class="form-control" placeholder="Tags separated by '\'" name="tags">
+                </div>
+                <div class="col-lg-4">
+                    <select name="category" class="form-control">
+                        {% for category in categories %}
+                            <option value="{{ category.getId() }}">{{ category.getName() }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <button type="submit" class="btn  btn-lg mybutton_cyano wow fadeIn">Submit</button>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <label><small>All fields are required!</small></label>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+{% endblock %}

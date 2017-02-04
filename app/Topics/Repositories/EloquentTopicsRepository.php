@@ -12,6 +12,11 @@ use App\Topics\Topic;
 
 class EloquentTopicsRepository implements TopicsRepositoryInterface
 {
+    public function all()
+    {
+        return Topic::get()->all();
+    }
+
     public function find($id)
     {
         return Topic::where("id", $id)->get()->first();

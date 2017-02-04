@@ -39,6 +39,9 @@ class Comment extends Model
         $this->setAttribute("tags", $tags);
     }
 
+    /**
+     * @return int
+     */
     public function getVotes()
     {
         return $this->getAttribute("votes");
