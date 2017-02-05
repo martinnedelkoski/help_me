@@ -3,6 +3,7 @@
 {% block body %}
     <div class="container container-fluid">
         <h2>Topics</h2>
+
         <div class="row" style="margin-bottom: 2%">
             {% for current in categories %}
                 <div class="col-xs-1">
@@ -12,15 +13,29 @@
                 </div>
             {% endfor %}
         </div>
-        <a href="{{ route('topics.create') }}" class="btn btn-lg mybutton_cyano wow fadeIn">New topic</a>
+
+        {% if user %}
+            <a href="{{ route('topics.create') }}" class="btn btn-lg mybutton_cyano wow fadeIn">New topic</a>
+        {% endif %}
 
         {% for topic in topics %}
 
-            <div class="row">
-                {% set commentsNumber = (topic.getComments()|length) %}
-                <a href="{{ route('topics.show', topic.getId()) }}">
-                    <h3>{{ topic.getTitle() }}<span class="badge">{{ commentsNumber }} comments</span> </h3>
-                </a>
+            <div class="row" style="border: solid 1px lightgray">
+                <div class="col-xs-10">
+                    {% set commentsNumber = (topic.getComments()|length) %}
+                    <a href="{{ route('topics.show', topic.getId()) }}">
+                        <h3>{{ topic.getTitle() }}<span class="badge">{{ commentsNumber }} comments</span> </h3>
+                    </a>
+                </div>
+                {% if topic.getUser() == user %}
+                    <div class="col-xs-2">
+                        <form action="{{ route('topics.delete', topic.getId()) }}" method="post">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <input type="submit" class="btn btn-danger btn-xs" value="Delete" id="delete{{ topic.getId() }}"/>
+                        </form>
+                    </div>
+                {% endif %}
             </div>
             <div class="row">
                 {% set tags = (topic.getTags()|split(',')) %}

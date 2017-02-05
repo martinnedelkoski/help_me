@@ -3,6 +3,7 @@
 namespace App\Topics\Comments;
 
 use App\Topics\Topic;
+use App\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
@@ -72,7 +73,7 @@ class Comment extends Model
 
     private function parentComment()
     {
-        return $this->belongsTo(Comment::class, "parent_id");
+        return $this->belongsTo(Comment::class, "parrent_comment");
     }
 
     /**
@@ -90,7 +91,7 @@ class Comment extends Model
 
     private function childComments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'parrent_comment');
     }
 
 
@@ -100,6 +101,21 @@ class Comment extends Model
     public function getChildren()
     {
         return $this->childComments()->get()->all();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user()->associate($user);
     }
 
 }

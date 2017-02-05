@@ -1,0 +1,13 @@
+{% if flash_subtitle is not defined %}
+    {% set flash_subtitle = '' %}
+{% else %}
+    {% set flash_subtitle = '-' ~ flash_subtitle %}
+{% endif %}
+
+{% if Session.has('success' ~ flash_subtitle ) %}
+    <div class="alert alert-success" role="alert">{{ Session.get('success' ~ flash_subtitle) }}<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+{% endif %}
+
+{% if Session.has('error' ~ flash_subtitle) %}
+    <div class="alert alert-danger" role="alert">{{ Session.get('error' ~ flash_subtitle) }}</div>
+{% endif %}

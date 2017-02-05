@@ -4,6 +4,7 @@ namespace App\Topics;
 
 use App\Categories\Category;
 use App\Topics\Comments\Comment;
+use App\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
@@ -70,6 +71,9 @@ class Topic extends Model
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * @return Comment[]
+     */
     public function getComments()
     {
         return $this->comments()->get()->all();
@@ -83,6 +87,24 @@ class Topic extends Model
     public function getCategories()
     {
         return $this->categories()->get()->all();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user()->associate($user);
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
 

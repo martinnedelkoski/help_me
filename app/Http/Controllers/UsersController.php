@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Users\Commands\StoreUserCommand;
+use App\Users\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Http\Request;
@@ -24,7 +25,12 @@ class UsersController extends Controller
 
     public function home()
     {
-        return view('home');
+        $user = null;
+        if (Auth::user()) {
+            $user = Auth::user();
+        }
+
+        return view('home')->with(compact('user'));
     }
 
     public function registerForm()
@@ -58,8 +64,13 @@ class UsersController extends Controller
     {
         $credentials = $request->only('username', 'password');
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('topics.index');
+        $user = User::where('username', $credentials['username'])
+            ->where('password', $credentials['password'])->get()->first();
+
+        if ($user) {
+            Auth::login($user);
+
+            return redirect()->route('home');
         }
 
         $this->session->flash('error', 'Email or password wrong');
@@ -69,7 +80,7 @@ class UsersController extends Controller
 
     public function logout()
     {
-        $this->auth->logout();
+        Auth::logout();
 
         return redirect()->route('home');
     }

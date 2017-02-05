@@ -27,7 +27,7 @@ class Category extends Model
 
     public function topics()
     {
-        return $this->hasManyThrough(Topic::class, TopicCategory::class);
+        return $this->hasManyThrough(Topic::class, TopicCategory::class, 'category_id', 'id', 'topic_id');
     }
 
     /**
