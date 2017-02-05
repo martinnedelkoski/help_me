@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categories\Category;
 use App\Http\Requests\StoreTopicRequest;
+use App\Topics\Comments\Comment;
 use App\Topics\Comments\Repositories\CommentsRepositoryInterface;
 use App\Topics\Repositories\TopicsRepositoryInterface;
 use App\Topics\Topic;
@@ -78,7 +79,6 @@ class TopicsController
         $votes = $comment->getVotes();
         $votes--;
 
-
         $comment->setVotes($votes);
 
         $this->comments->store($comment);
@@ -90,5 +90,24 @@ class TopicsController
     {
         $categories = Category::get()->all();
         return view('topics.create')->with(compact('categories'));
+    }
+
+    public function storeComment($id, Request $request)
+    {
+        $topic = Topic::where('id', $id)->get()->first();
+
+        $comment = new Comment();
+
+        $comment->setTopic($topic);
+        $comment->setContent($request->get('content'));
+        $comment->setTags($request->get('tags'));
+        $comment->setVotes(0);
+        $comment->setAttribute('user_id', 2);
+
+        $comment->timestamps = false;
+
+        $comment->save();
+
+        return redirect()->route('topics.show', $id);
     }
 }
