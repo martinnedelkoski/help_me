@@ -2,6 +2,7 @@
 
 namespace App\Topics;
 
+use App\Categories\Category;
 use App\Topics\Comments\Comment;
 use Illuminate\Database\Eloquent\Model;
 
@@ -72,6 +73,16 @@ class Topic extends Model
     public function getComments()
     {
         return $this->comments()->get()->all();
+    }
+
+    public function categories()
+    {
+        return $this->hasManyThrough(Category::class, TopicCategory::class);
+    }
+
+    public function getCategories()
+    {
+        return $this->categories()->get()->all();
     }
 
 

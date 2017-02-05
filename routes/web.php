@@ -21,6 +21,9 @@ $router->group(['prefix' => 'topics'], function (Router $router) {
     $router->delete('/{id}',      ['as' => 'topics.delete', 'uses' => 'TopicsController@delete']);
     $router->get(   '/{id}',      ['as' => 'topics.show',   'uses' => 'TopicsController@show']);
 
+
+    $router->get('/category/{id}', ['as' => 'topics.category',  'uses' => 'TopicsController@getByCategory']);
+
     $router->post(  '/{id}',                   ['as' => 'topics.comments.store',  'uses' => 'TopicsController@storeComment']);
     $router->delete('/{id}/{commentId}',       ['as' => 'topics.comments.delete', 'uses' => 'TopicsController@deleteComment']);
     $router->get(   '/{id}/vote-up',           ['as' => 'topics.comments.vote-up',   'uses' => 'TopicsController@voteCommentUp']);

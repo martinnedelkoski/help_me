@@ -3,6 +3,15 @@
 {% block body %}
     <div class="container container-fluid">
         <h2>Topics</h2>
+        <div class="row" style="margin-bottom: 2%">
+            {% for current in categories %}
+                <div class="col-xs-1">
+                    <a href="{{ route('topics.category', current.getId()) }}" class="btn btn-xs btn-default">
+                        {{ current.getName() }}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
         <a href="{{ route('topics.create') }}" class="btn btn-lg mybutton_cyano wow fadeIn">New topic</a>
 
         {% for topic in topics %}

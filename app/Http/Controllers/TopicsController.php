@@ -24,8 +24,9 @@ class TopicsController
     public function index()
     {
         $topics = $this->topics->all();
+        $categories = Category::get()->all();
 
-        return view('topics.index')->with(compact('topics'));
+        return view('topics.index')->with(compact('topics', 'categories'));
     }
 
     public function show($id)
@@ -109,5 +110,16 @@ class TopicsController
         $comment->save();
 
         return redirect()->route('topics.show', $id);
+    }
+
+    public function getByCategory($categoryId)
+    {
+        $categories = Category::get()->all();
+        /** @var Category $category */
+        $category = Category::where('id', $categoryId)->get()->first();
+
+        $topics = $category->getTopics();
+
+        return view('topics.index')->with(compact('topics', 'category', 'categories'));
     }
 }

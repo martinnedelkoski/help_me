@@ -2,6 +2,8 @@
 
 namespace App\Categories;
 
+use App\Topics\Topic;
+use App\Topics\TopicCategory;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -21,5 +23,18 @@ class Category extends Model
     public function setName($name)
     {
         $this->setAttribute("name", $name);
+    }
+
+    public function topics()
+    {
+        return $this->hasManyThrough(Topic::class, TopicCategory::class);
+    }
+
+    /**
+     * @return Topic[]
+     */
+    public function getTopics()
+    {
+        return $this->topics()->get()->all();
     }
 }

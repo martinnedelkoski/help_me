@@ -59,7 +59,7 @@ class UsersController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            dd($credentials);
+            return redirect()->route('topics.index');
         }
 
         $this->session->flash('error', 'Email or password wrong');

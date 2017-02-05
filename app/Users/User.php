@@ -4,11 +4,14 @@ namespace App\Users;
 
 use App\Roles\Role;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticableInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model implements Authenticatable
+class User extends Model implements AuthenticableInterface
 {
+    use Authenticatable;
+
     protected $table = 'users';
 
     public function getId()
@@ -124,67 +127,5 @@ class User extends Model implements Authenticatable
     public function setRole(Role $role)
     {
         $this->role()->associate($role);
-    }
-
-
-    /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
-     */
-    public function getAuthIdentifierName()
-    {
-
-    }
-
-    /**
-     * Get the unique identifier for the user.
-     *
-     * @return mixed
-     */
-    public function getAuthIdentifier()
-    {
-
-    }
-
-    /**
-     * Get the password for the user.
-     *
-     * @return string
-     */
-    public function getAuthPassword()
-    {
-
-    }
-
-    /**
-     * Get the token value for the "remember me" session.
-     *
-     * @return string
-     */
-    public function getRememberToken()
-    {
-
-    }
-
-    /**
-     * Set the token value for the "remember me" session.
-     *
-     * @param  string $value
-     * @return void
-     */
-    public function setRememberToken($value)
-    {
-
-    }
-
-    /**
-     * Get the column name for the "remember me" token.
-     *
-     * @return string
-     */
-    public function getRememberTokenName()
-    {
-
     }
 }
