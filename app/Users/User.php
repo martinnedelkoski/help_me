@@ -142,4 +142,9 @@ class User extends Model implements AuthenticableInterface
     {
         return $this->topics;
     }
+
+    public function isAdmin()
+    {
+        return (bool) ($this->getRole()->getName() == 'admin');
+    }
 }

@@ -12,6 +12,9 @@ $router->get( '/profile',     ['as' => 'users.profile', 'middleware' => 'auth', 
 $router->post('/profile',     ['as' => 'users.update',  'middleware' => 'auth', 'uses' => 'UsersController@update']);
 $router->get( '/user/topics', ['as' => 'users.topics',  'middleware' => 'auth', 'uses' => 'UsersController@topics']);
 
+$router->get( '/categories', ['as' => 'categories.create',  'middleware' => 'auth', 'uses' => 'UsersController@createCategory']);
+$router->post('/categories', ['as' => 'categories.store',   'middleware' => 'auth', 'uses' => 'UsersController@storeCategory']);
+
 $router->post('/login-',  ['as' => 'users.login', 'uses' => 'UsersController@login']);
 $router->get( '/logout',  ['as' => 'users.logout', 'middleware' => 'auth', 'uses' => 'UsersController@logout']);
 

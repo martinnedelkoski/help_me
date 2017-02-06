@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Categories\Category;
 use App\Roles\Role;
 use App\Users\Commands\StoreUserCommand;
 use App\Users\User;
@@ -133,5 +134,33 @@ class UsersController extends Controller
         $topics = $user->getTopics();
 
         return view('users.topics')->with(compact('user', 'topics'));
+    }
+
+    public function createCategory()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (! $user->isAdmin()) {
+            return redirect()->back();
+        }
+
+        return view('categories.create');
+    }
+
+    public function storeCategory(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (! $user->isAdmin()) {
+            return redirect()->back();
+        }
+
+        $category = new Category();
+        $category->setName($request->get('name'));
+        $category->save();
+
+        return redirect()->route('home');
     }
 }

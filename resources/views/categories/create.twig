@@ -1,0 +1,30 @@
+{% extends "layouts.default" %}
+
+{% block body %}
+
+    <div class="container container-fluid" >
+
+        <h2>New category</h2>
+
+        <form method="post" action="{{ route('categories.store') }}" enctype="multipart/form-data" style="margin-top: 3%">
+
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+            <div class="row" style="padding-top: 50px">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <input type="text" class="form-control" placeholder="Name" name="name">
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px">
+                <div class="col-lg-4 col-lg-offset-2">
+                    <button type="submit" class="btn  btn-lg mybutton_cyano wow fadeIn">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+{% endblock %}
