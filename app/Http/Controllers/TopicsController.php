@@ -8,6 +8,7 @@ use App\Topics\Comments\Comment;
 use App\Topics\Comments\Repositories\CommentsRepositoryInterface;
 use App\Topics\Repositories\TopicsRepositoryInterface;
 use App\Topics\Topic;
+use App\Topics\TopicCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,13 +64,18 @@ class TopicsController
         $topic->setTags($request->get('tags'));
         $topic->setUser($user);
 
-        if ($request->get('category')) {
-            $category = Category::where('id', $request->get('category'))->get()->first();
-        }
-
-//        $topic->timestamps = false;
-
         $topic->save();
+
+        if ($request->get('categories') != []) {
+            foreach ($request->get('categories') as $current) {
+                $category = Category::where('name', $current)->get()->first();
+
+                $topicCategory = new TopicCategory();
+                $topicCategory->setCategory($category);
+                $topicCategory->setTopic($topic);
+                $topicCategory->save();
+            }
+        }
 
         return redirect()->route('topics.index');
     }
@@ -158,6 +164,10 @@ class TopicsController
 
     public function getByCategory($categoryId)
     {
+        if ($categoryId == 0) {
+            return redirect()->route('topics.index');
+        }
+
         $user = null;
         if (Auth::user()) {
             $user = Auth::user();
@@ -167,7 +177,13 @@ class TopicsController
         /** @var Category $category */
         $category = Category::where('id', $categoryId)->get()->first();
 
-        $topics = $category->getTopics();
+        /** @var TopicCategory[] $categoryTopics */
+        $categoryTopics = TopicCategory::where('category_id', $categoryId)->get()->all();
+
+        $topics = [];
+        foreach ($categoryTopics as $categoryTopic) {
+            $topics[] = $categoryTopic->getTopic();
+        }
 
         return view('topics.index')->with(compact('topics', 'category', 'categories', 'user'));
     }
