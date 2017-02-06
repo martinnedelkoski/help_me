@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Roles\Role;
 use App\Users\Commands\StoreUserCommand;
 use App\Users\User;
 use Carbon\Carbon;
@@ -71,17 +72,32 @@ class UsersController extends Controller
         $password = $request->get('password');
         $birthday = $request->get('birthday');
 
-        try {
-            $this->commandBus->dispatch(new StoreUserCommand(
-                $name, $surname, $username, $email, $password, $birthday
-            ));
+        $role = Role::where('name', 'user')->get()->first();
 
-            $this->session->flash('success', 'User successfully stored');
-        } catch (\Exception $e) {
-            $this->session->flash('error', 'Error while storing the user.');
-        }
+        $user = new User();
+        $user->setName($name);
+        $user->setSurname($surname);
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setPassword($password);
+        $user->setBirthday(new Carbon($birthday));
 
-        return route('home');
+        $user->setRole($role);
+
+        $user->save();
+
+//        try {
+//            $this->commandBus->dispatch(new StoreUserCommand(
+//                $name, $surname, $username, $email, $password, $birthday
+//            ));
+//
+//            $this->session->flash('success', 'User successfully stored');
+//        } catch (\Exception $e) {
+//            dd($e);
+//            $this->session->flash('error', 'Error while storing the user.');
+//        }
+
+        return redirect()->route('home');
     }
 
     public function login(Request $request)
