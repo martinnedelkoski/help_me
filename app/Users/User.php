@@ -3,6 +3,7 @@
 namespace App\Users;
 
 use App\Roles\Role;
+use App\Topics\Comments\Comment;
 use App\Topics\Topic;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
@@ -146,5 +147,18 @@ class User extends Model implements AuthenticableInterface
     public function isAdmin()
     {
         return (bool) ($this->getRole()->getName() == 'admin');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * @return Comment[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

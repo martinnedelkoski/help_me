@@ -8,9 +8,10 @@ $router->get('/', ['as' => 'home', 'uses' => 'UsersController@home']);
 $router->get( '/register-form', ['as' => 'users.register-form', 'uses' => 'UsersController@registerForm']);
 $router->post('/post-register', ['as' => 'users.register',      'uses' => 'UsersController@register']);
 
-$router->get( '/profile',     ['as' => 'users.profile', 'middleware' => 'auth', 'uses' => 'UsersController@profile']);
-$router->post('/profile',     ['as' => 'users.update',  'middleware' => 'auth', 'uses' => 'UsersController@update']);
-$router->get( '/user/topics', ['as' => 'users.topics',  'middleware' => 'auth', 'uses' => 'UsersController@topics']);
+$router->get( '/profile',       ['as' => 'users.profile',   'middleware' => 'auth', 'uses' => 'UsersController@profile']);
+$router->post('/profile',       ['as' => 'users.update',    'middleware' => 'auth', 'uses' => 'UsersController@update']);
+$router->get( '/user/topics',   ['as' => 'users.topics',    'middleware' => 'auth', 'uses' => 'UsersController@topics']);
+$router->get( '/user/comments', ['as' => 'users.comments',  'middleware' => 'auth', 'uses' => 'UsersController@comments']);
 
 $router->get( '/categories', ['as' => 'categories.create',  'middleware' => 'auth', 'uses' => 'UsersController@createCategory']);
 $router->post('/categories', ['as' => 'categories.store',   'middleware' => 'auth', 'uses' => 'UsersController@storeCategory']);

@@ -151,6 +151,25 @@ class UsersController extends Controller
         return view('users.topics')->with(compact('user', 'topics'));
     }
 
+    public function comments()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $comments = $user->getComments();
+        $topics = [];
+
+        foreach ($comments as $comment) {
+            $topic = $comment->getTopic();
+
+            if (! in_array($topic, $topics)) {
+                $topics[] = $topic;
+            }
+        }
+
+        return view('users.topics')->with(compact('users', 'topics'));
+    }
+
     public function createCategory()
     {
         /** @var User $user */
