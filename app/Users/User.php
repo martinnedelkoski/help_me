@@ -3,6 +3,7 @@
 namespace App\Users;
 
 use App\Roles\Role;
+use App\Topics\Topic;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticableInterface;
@@ -127,5 +128,18 @@ class User extends Model implements AuthenticableInterface
     public function setRole(Role $role)
     {
         $this->role()->associate($role);
+    }
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
+
+    /**
+     * @return Topic[]
+     */
+    public function getTopics()
+    {
+        return $this->topics;
     }
 }

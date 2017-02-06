@@ -1,0 +1,37 @@
+{% extends "layouts.default" %}
+
+{% block body %}
+    <div class="container container-fluid">
+
+        {% set topicsNumber = user.getTopics()|length %}
+
+        <form action="{{ route('users.update') }}" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+            <label for="name" style="width: 100%">Name</label>
+            <input type="text" name="name" id="name" value="{{ user.getName() }}" class="form-control" style="width: 50%" onkeypress="enable()">
+
+            <label for="surname" style="width: 100%">Surname</label>
+            <input type="text" name="surname" id="surname" value="{{ user.getSurname() }}" class="form-control" style="width: 50%" onkeypress="enable()">
+
+            <label for="username" style="width: 100%">Username</label>
+            <input type="text" name="username" id="username" value="{{ user.getUsername() }}" class="form-control" style="width: 50%" onkeypress="enable()">
+
+            <label for="email" style="width: 100%">Email</label>
+            <input type="text" name="email" id="email" value="{{ user.getEmail() }}" class="form-control" style="width: 50%" onkeypress="enable()">
+
+            <label for="birthday" style="width: 100%">Birthday</label>
+            <input type="date" name="birthday" id="birthday" value="{{ user.getBirthday() }}" class="form-control" style="width: 50%" onkeypress="enable()">
+
+            <button id="update" name="update" class="btn mybutton_cyano fadeIn" style="margin-top: 3%" disabled>Update</button>
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+        function enable() {
+            document.getElementById("update").disabled = false;
+        }
+    </script>
+{% endblock %}

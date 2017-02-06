@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Users\Commands\StoreUserCommand;
 use App\Users\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Http\Request;
@@ -31,6 +32,29 @@ class UsersController extends Controller
         }
 
         return view('home')->with(compact('user'));
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view('users.profile')->with(compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->setName($request->get('name'));
+        $user->setSurname($request->get('surname'));
+        $user->setUsername($request->get('username'));
+        $user->setEmail($request->get('email'));
+        $user->setBirthday(new Carbon($request->get('birthday')));
+
+        $user->save();
+
+        return redirect()->route('users.profile');
     }
 
     public function registerForm()
