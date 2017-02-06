@@ -5,6 +5,7 @@ namespace App\Topics;
 use App\Categories\Category;
 use App\Topics\Comments\Comment;
 use App\Users\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model

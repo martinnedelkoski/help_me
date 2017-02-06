@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categories\Category;
 use App\Roles\Role;
+use App\Topics\Topic;
 use App\Users\Commands\StoreUserCommand;
 use App\Users\User;
 use Carbon\Carbon;
@@ -33,7 +34,21 @@ class UsersController extends Controller
             $user = Auth::user();
         }
 
-        return view('home')->with(compact('user'));
+        /** @var Topic[] $topics */
+        $topics = Topic::get()->all();
+        $topic = null;
+
+        $max = 0;
+        $now = Carbon::now();
+
+        foreach ($topics as $current) {
+            if (count($current->getComments()) >= $max) {
+                $max = count($current->getComments());
+                $topic = $current;
+            }
+        }
+
+        return view('home')->with(compact('user', 'topic'));
     }
 
     public function profile()

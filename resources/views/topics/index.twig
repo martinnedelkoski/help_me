@@ -36,7 +36,7 @@
                         <h3>{{ topic.getTitle() }}<span class="badge" style="margin-left: 2%">{{ commentsNumber }} comments</span> </h3>
                     </a>
                 </div>
-                {% if topic.getUser() == user or user.isAdmin() %}
+                {% if (topic.getUser().getId() == user.getId()) or user.isAdmin() %}
                     <div class="col-xs-2" style="padding-top: 2%">
                         <form action="{{ route('topics.delete', topic.getId()) }}" method="post">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
