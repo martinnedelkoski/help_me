@@ -45,8 +45,6 @@ class TopicsController
 
         $topic = $this->topics->find($id);
 
-        $comments = $topic->getComments();
-
         return view('topics.show')->with(compact('topic', 'user'));
     }
 
@@ -131,12 +129,10 @@ class TopicsController
         $comment = new Comment();
 
         $comment->setTopic($topic);
-        $comment->setContent($request->get('content'));
+        $comment->setContent(trim($request->get('content')));
         $comment->setTags($request->get('tags'));
         $comment->setVotes(0);
         $comment->setUser($user);
-
-//        $comment->timestamps = false;
 
         $comment->save();
 
@@ -206,5 +202,25 @@ class TopicsController
         $categories = Category::get()->all();
 
         return view('topics.index')->with(compact('topics', 'categories', 'user', 'tag'));
+    }
+
+    public function commentsByTag($topicId, $tag)
+    {
+        $user = Auth::user();
+
+        /** @var Topic $topic */
+        $topic = Topic::where('id', $topicId)->get()->first();
+
+        $comments = [];
+        $allComments = $topic->getComments();
+
+        foreach ($allComments as $comment) {
+            $tags = explode(',', $comment->getTags());
+            if (in_array($tag, $tags)) {
+                $comments[] = $comment;
+            }
+        }
+
+        return view('topics.show')->with(compact('topic', 'comments', 'user'));
     }
 }
