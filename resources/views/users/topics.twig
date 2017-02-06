@@ -1,0 +1,59 @@
+{% extends "layouts.default" %}
+
+{% block body %}
+    <div class="container container-fluid">
+        <h2>
+            Topics
+            {% if category %}for {{ category.getName() }}{% endif %}
+        </h2>
+
+        {#<div class="row" style="margin-bottom: 2%">#}
+            {#<div class="col-xs-1">#}
+                {#<a href="{{ route('topics.category', 0) }}" class="btn btn-xs btn-default" style="width: 130%">#}
+                    {#all#}
+                {#</a>#}
+            {#</div>#}
+            {#{% for current in categories %}#}
+                {#<div class="col-xs-1">#}
+                    {#<a href="{{ route('topics.category', current.getId()) }}" class="btn btn-xs btn-default" style="width: 130%">#}
+                        {#{{ current.getName() }}#}
+                    {#</a>#}
+                {#</div>#}
+            {#{% endfor %}#}
+        {#</div>#}
+
+        {% if user %}
+            <a href="{{ route('topics.create') }}" class="btn btn-lg mybutton_cyano wow fadeIn">New topic</a>
+        {% endif %}
+
+        {% for topic in topics %}
+
+            <div class="row" style="border: solid 1px lightgray; margin-top: 2%">
+                <div class="col-xs-10">
+                    {% set commentsNumber = (topic.getComments()|length) %}
+                    <a href="{{ route('topics.show', topic.getId()) }}">
+                        <h3>{{ topic.getTitle() }}<span class="badge" style="margin-left: 2%">{{ commentsNumber }} comments</span> </h3>
+                    </a>
+                </div>
+                {% if topic.getUser() == user %}
+                    <div class="col-xs-2" style="padding-top: 2%">
+                        <form action="{{ route('topics.delete', topic.getId()) }}" method="post">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <input type="submit" class="btn btn-danger btn-xs" value="Delete" id="delete{{ topic.getId() }}"/>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row">
+                {% set tags = (topic.getTags()|split(',')) %}
+                {% for tag in tags %}
+                    <span class="badge">{{ tag }}</span>
+                {% endfor %}
+            </div>
+
+            <hr>
+
+        {% endfor %}
+    </div>
+{% endblock %}

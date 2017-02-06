@@ -108,4 +108,14 @@ class UsersController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function topics()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $topics = $user->getTopics();
+
+        return view('users.topics')->with(compact('user', 'topics'));
+    }
 }

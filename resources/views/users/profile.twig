@@ -2,8 +2,17 @@
 
 {% block body %}
     <div class="container container-fluid">
+        <h3>Hello {{ user.getName() }} {{ user.getSurname() }}</h3>
 
         {% set topicsNumber = user.getTopics()|length %}
+
+        <a href="{{ route('users.topics') }}" class="badge" style="padding-left: 2%; padding-right: 2%">View all my topics ({{ topicsNumber }})</a>
+
+        <hr>
+
+        <h5>Profile info</h5>
+
+        <hr>
 
         <form action="{{ route('users.update') }}" method="post" enctype="multipart/form-data">
 

@@ -8,8 +8,9 @@ $router->get('/', ['as' => 'home', 'uses' => 'UsersController@home']);
 $router->get( '/register-form', ['as' => 'users.register-form', 'uses' => 'UsersController@registerForm']);
 $router->post('/post-register', ['as' => 'users.register',      'uses' => 'UsersController@register']);
 
-$router->get('/profile',  ['as' => 'users.profile', 'middleware' => 'auth', 'uses' => 'UsersController@profile']);
-$router->post('/profile', ['as' => 'users.update',  'middleware' => 'auth', 'uses' => 'UsersController@update']);
+$router->get( '/profile',     ['as' => 'users.profile', 'middleware' => 'auth', 'uses' => 'UsersController@profile']);
+$router->post('/profile',     ['as' => 'users.update',  'middleware' => 'auth', 'uses' => 'UsersController@update']);
+$router->get( '/user/topics', ['as' => 'users.topics',  'middleware' => 'auth', 'uses' => 'UsersController@topics']);
 
 $router->post('/login-',  ['as' => 'users.login', 'uses' => 'UsersController@login']);
 $router->get( '/logout',  ['as' => 'users.logout', 'middleware' => 'auth', 'uses' => 'UsersController@logout']);
