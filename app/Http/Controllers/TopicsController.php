@@ -187,4 +187,24 @@ class TopicsController
 
         return view('topics.index')->with(compact('topics', 'category', 'categories', 'user'));
     }
+
+    public function byTag($tag)
+    {
+        $user = Auth::user();
+
+        /** @var Topic[] $allTopics */
+        $allTopics = Topic::get()->all();
+        $topics = [];
+
+        foreach ($allTopics as $topic) {
+            $tags = explode(',', $topic->getTags());
+            if (in_array($tag, $tags)) {
+                $topics[] = $topic;
+            }
+        }
+
+        $categories = Category::get()->all();
+
+        return view('topics.index')->with(compact('topics', 'categories', 'user', 'tag'));
+    }
 }

@@ -23,6 +23,9 @@ $router->group(['prefix' => 'topics'], function (Router $router) {
     $router->get(   '/',          ['as' => 'topics.index',  'uses' => 'TopicsController@index']);
     $router->get(   '/create',    ['as' => 'topics.create', 'middleware' => 'auth', 'uses' => 'TopicsController@create']);
     $router->post(  '/',          ['as' => 'topics.store',  'middleware' => 'auth', 'uses' => 'TopicsController@store']);
+
+    $router->get(   '/tag/{tag}',          ['as' => 'topics.tag',  'uses' => 'TopicsController@byTag']);
+
     $router->get(   '/{id}/edit', ['as' => 'topics.edit',   'middleware' => 'auth', 'uses' => 'TopicsController@edit']);
     $router->post(  '/{id}',      ['as' => 'topics.update', 'middleware' => 'auth', 'uses' => 'TopicsController@update']);
     $router->delete('/{id}',      ['as' => 'topics.delete', 'middleware' => 'auth', 'uses' => 'TopicsController@delete']);

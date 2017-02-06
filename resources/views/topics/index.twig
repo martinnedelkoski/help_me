@@ -5,6 +5,7 @@
         <h2>
             Topics
             {% if category %}for {{ category.getName() }}{% endif %}
+            {% if tag %}for '{{ tag }}'{% endif %}
         </h2>
 
         <div class="row" style="margin-bottom: 2%">
@@ -48,7 +49,7 @@
             <div class="row">
                 {% set tags = (topic.getTags()|split(',')) %}
                 {% for tag in tags %}
-                    <span class="badge">{{ tag }}</span>
+                    <span class="badge"><a href="{{ route('topics.tag', tag) }}" style="color: white">{{ tag }}</a> </span>
                 {% endfor %}
             </div>
 
