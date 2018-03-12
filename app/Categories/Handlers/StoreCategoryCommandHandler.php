@@ -8,19 +8,19 @@ use App\Categories\Repositories\CategoriesRepositoryInterface;
 
 class StoreCategoryCommandHandler
 {
-    private $categories;
+    private $categoriesRepository;
 
-    public function __construct(CategoriesRepositoryInterface $categories)
+    public function __construct(CategoriesRepositoryInterface $categoriesRepository)
     {
-        $this->$categories = $categories;
+        $this->categoriesRepository = $categoriesRepository;
     }
 
     public function handle(StoreCategoryCommand $command)
     {
         $category = new Category();
 
-        $category->setContent($command->getName());
+        $category->setName($command->getName());
 
-        $this->categories->store($category);
+        $this->categoriesRepository->store($category);
     }
 }

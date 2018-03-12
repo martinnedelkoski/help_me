@@ -4,23 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Categories\Category;
 use App\Http\Requests\StoreTopicRequest;
+use App\Topics\Commands\StoreTopicCommand;
 use App\Topics\Comments\Comment;
 use App\Topics\Comments\Repositories\CommentsRepositoryInterface;
 use App\Topics\Repositories\TopicsRepositoryInterface;
 use App\Topics\Topic;
 use App\Topics\TopicCategory;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TopicsController
 {
     private $topics;
     private $comments;
+    private $commandBus;
 
-    public function __construct(TopicsRepositoryInterface $topics, CommentsRepositoryInterface $comments)
-    {
+    public function __construct(
+        TopicsRepositoryInterface $topics,
+        CommentsRepositoryInterface $comments,
+        Dispatcher $commandBus
+    ) {
         $this->topics = $topics;
         $this->comments = $comments;
+        $this->commandBus = $commandBus;
     }
 
     public function index()
@@ -48,31 +56,23 @@ class TopicsController
         return view('topics.show')->with(compact('topic', 'user'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTopicRequest $request)
     {
         $user = null;
         if (Auth::user()) {
             $user = Auth::user();
         }
 
-        $topic = new Topic();
-
-        $topic->setTitle($request->get('title'));
-        $topic->setContent($request->get('content'));
-        $topic->setTags($request->get('tags'));
-        $topic->setUser($user);
-
-        $topic->save();
-
-        if ($request->get('categories') != []) {
-            foreach ($request->get('categories') as $current) {
-                $category = Category::where('name', $current)->get()->first();
-
-                $topicCategory = new TopicCategory();
-                $topicCategory->setCategory($category);
-                $topicCategory->setTopic($topic);
-                $topicCategory->save();
-            }
+        try {
+            $this->commandBus->dispatch(new StoreTopicCommand(
+                $request->get('title'),
+                $request->get('content'),
+                $request->get('tags'),
+                $user,
+                $request->get('categories')
+            ));
+        } catch (\Exception $e) {
+            Log::error($e);
         }
 
         return redirect()->route('topics.index');
@@ -81,11 +81,9 @@ class TopicsController
     public function voteCommentUp($commentId)
     {
         $comment = $this->comments->find($commentId);
-//        $comment->timestamps = false;
 
         $votes = $comment->getVotes();
         $votes++;
-
 
         $comment->setVotes($votes);
 
@@ -97,7 +95,6 @@ class TopicsController
     public function voteCommentDown($commentId)
     {
         $comment = $this->comments->find($commentId);
-//        $comment->timestamps = false;
 
         $votes = $comment->getVotes();
         $votes--;

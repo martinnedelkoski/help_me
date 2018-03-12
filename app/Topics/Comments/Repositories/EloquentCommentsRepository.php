@@ -3,12 +3,19 @@
 namespace App\Topics\Comments\Repositories;
 
 use App\Topics\Comments\Comment;
+use Exception;
 
 class EloquentCommentsRepository implements CommentsRepositoryInterface
 {
     public function find($id)
     {
-        return Comment::where("id", $id)->get()->first();
+        $comment = Comment::find($id);
+
+        if (!$comment) {
+            throw new Exception('Comment not found!');
+        }
+
+        return $comment;
     }
 
     public function store(Comment $comment)

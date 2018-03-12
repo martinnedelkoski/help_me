@@ -135,6 +135,13 @@ return [
     |
     */
 
+    // App
+    App\Core\BusServiceProvider::class,
+    App\Roles\Providers\RolesRepositoryProvider::class,
+    App\Topics\Providers\TopicsRepositoryProvider::class,
+    App\Topics\Comments\Providers\CommentsRepositoryProvider::class,
+    App\Users\Providers\UsersRepositoryProvider::class,
+
     'providers' => [
 
         /*
